@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/tdastruct/!svn/ver/3/include
+END
+list.h
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/tdastruct/!svn/ver/3/include/list.h
+END
+generic.h
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/tdastruct/!svn/ver/1/include/generic.h
+END
+estudiante.c
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/tdastruct/!svn/ver/1/include/estudiante.c
+END
+nodelist.h
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/tdastruct/!svn/ver/3/include/nodelist.h
+END
+graph.h
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/tdastruct/!svn/ver/8/include/graph.h
+END
+quebrado.h
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/tdastruct/!svn/ver/1/include/quebrado.h
+END
+queue.h
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/tdastruct/!svn/ver/3/include/queue.h
+END
+estudiante.h
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/tdastruct/!svn/ver/1/include/estudiante.h
+END
+stack.h
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/tdastruct/!svn/ver/3/include/stack.h
+END

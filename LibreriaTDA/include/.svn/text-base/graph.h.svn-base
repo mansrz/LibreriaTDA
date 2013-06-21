@@ -1,0 +1,325 @@
+#ifndef _GRAPH_H_
+#define _GRAPH_H_
+
+/*
+ * ARCHIVO:
+ *      graph.h
+ * --------------------------------------------------------------------------------------
+ * DESCRIPCION:
+ * 		Este archivo contiene la interfaz del TDA GRAPH
+							TDA GRAPH
+
+	GRAPH: Lista de vertices (TDA Vertex)
+	+-----------+---------+   +-----------+---------+   +-----------+---------+   
+	| content   |  next  -+-->| content   |  next  -+-->| content   |  next  -+--+
+	+-----+-----+---------+   +-----------+---------+   +-----------+---------+  |
+	      |																		===
+ +--------+
+ |	TDA Vertex
+ |	+------------+
+ +->    |  content   | --> Informacion encapsulada en el vertice
+	+------------+
+	|  visited   | --> Bandera para algoritmos de recorridos
+	+------------+
+	| LAdjacents |
+	+-----+------+
+	      |		
+ +--------+
+ |	
+ |	Lista de Arcos (TDA Edge) adyacentes
+ |	+-----------+---------+   +-----------+---------+   +-----------+---------+   
+ +->    |   content  |  next -+-->|   content  |  next -+-->|   content  |  next -+--+
+	+-----+-----+---------+   +-----------+---------+   +-----------+---------+  |
+		  |																		===
+ +--------+
+ |  TDA Edge
+ |  +------------+
+ +->|	source   | --> Vertice Origen
+    +------------+
+    |destination | --> Vertice Destion
+    +------------+
+    |	weight   | --> Factor de peso
+    +------------+
+    | ExtraInfo  | --> Informacion adicional que se puede guardar en el arco
+    +------------+
+*/
+
+#include "nodelist.h"
+#include "list.h"
+#include "stack.h"
+#include "queue.h"
+
+#define MAX_DIST 66000
+
+
+//Grafo dirigido solamente
+typedef List Graph;
+
+//Vertice
+typedef struct GVertex
+{
+	Generic content;
+	List	*LAdjacents;
+	int	visited;
+}GVertex;
+
+//Arco
+typedef struct GEdge	
+{
+	int	weight;
+	Generic ExtraInfo;
+	GVertex *source;
+	GVertex *destination;
+}GEdge;
+
+/*
+ * Funcion: GRAPH_New
+ * --------------------------
+ * Modo de uso:
+ * Graph G;
+ * G = graphNew();
+ *
+ * Descripcion: Crea una Lista de Vertices vacia
+ */
+Graph *graphNew();
+
+/*
+ * Funcion: graphDelete
+ * --------------------------
+ * Modo de uso:
+ * Graph *G;
+ * graphDelete(&G);
+ *
+ * Descripcion: Elimina los nodos de la Lista liberando
+ *			solo la memoria del contenedor y no de
+ *			la informacion
+ */
+void graphDelete(Graph **G);
+
+/*
+ * Funcion: gVertexNew
+ * --------------------------
+ * Modo de uso:
+ * GVertex *vertice;
+ * Generic content = xxxxNew(xxxx);
+ * vertice = gVertexNew(content);
+ *
+ * Descripcion: Crea un nuevo vertice que tendra como
+ *			contenido la informacion recibida en content
+ */
+GVertex *gVertexNew(Generic content);
+
+/*
+ * Funcion: gVertexDelete
+ * --------------------------
+ * Modo de uso:
+ * GVertex *V;
+ * gVertexDelete(&V);
+ *
+ * Descripcion: Elimina un vertice que ya no debe 
+ *			pertenecer a grafo alguno (debe haberse
+ *			sacado el vertice del grafo previamente);
+ *			liberando la memoria de la informacion
+ *			guardada, de su lista de adyancencia y
+ *			del vertice mismo. 
+ */
+void gVertexDelete(GVertex **V);
+
+/* -------------------------------------------
+ * FUNCIONES DE CONSULTA DE ATRIBUTOS
+ * -------------------------------------------*/
+Generic gVertexGetContent(GVertex *v);
+List *gVertexGetAdjacents(GVertex *v);
+int gVertexIsVisited(GVertex *v);
+Generic gEdgeGetExtraInfo(GEdge *e);
+int gEdgeGetWeight(GEdge *e);
+GVertex *gEdgeGetSource(GEdge *e);
+GVertex *gEdgeGetDestination(GEdge *e);
+
+/* -------------------------------------------
+ * FUNCIONES DE MODIFICACION DE ATRIBUTOS
+ * -------------------------------------------*/
+void gVertexVisit(GVertex *v);
+void gVertexClearVisit(GVertex *v);
+
+/*
+ * Funcion: graphAddVertex
+ * --------------------------
+ * Modo de uso:
+ * GVertex *V;
+ * Graph *G;
+ * graphAddVertex(G,V);
+ *
+ * Descripci�n: Inserta el vertice 
+ *			V en el Grafo G
+ */
+void graphAddVertex(Graph *G, GVertex *v);
+
+/*
+ * Funcion: graphRemoveVertex
+ * --------------------------
+ * Modo de uso:
+ * GVertex *V;
+ * Graph *G;
+ * NodeList *pNodo;
+ * pNodo = graphRemoveVertex(G,V,FuncionComparacion);
+ *
+ * Descripcion: Elimina el vertice 
+ *			V del Grafo G; retornando
+ *			el nodo que tiene por contenido el 
+ *			vertice removido
+ */
+NodeList *graphRemoveVertex(Graph *G, GVertex *V, cmpfn fn);
+
+/*
+ * Funcion: graphLinkVertices
+ * --------------------------
+ * Modo de uso:
+ * GVertex *source, *destination;
+ * Graph *G;
+ * Generic content;
+ * graphAddEdge(G,source,destination,content);
+ *
+ * Descripcion: Crea una nueva arco entre el vertice
+ *			source y el destionation; insertando el nueva arco en la
+ *			lista de adyancencia del vertice source
+ */
+void graphLinkVertices(Graph *G, GVertex *vsource, GVertex *vdestination, int weight, Generic extraInfo);
+
+/*
+ * Funcion: graphUnlinkVertices
+ * --------------------------
+ * Modo de uso:
+ * GVertex *source, *destination;
+ * Graph *G;
+ * graphUnlinkVertices(G,source,destination);
+ *
+ * Descripcion: Elimina la arco existente entre el 
+ *			vertice source y el destination
+ */
+void graphUnlinkVertices(Graph *G, GVertex *vsource, GVertex *vdestination);
+
+/*
+ * Funcion: graphIsEmpty
+ * --------------------------
+ * Modo de uso:
+ * int resp;
+ * Graph *G;
+ * resp = graphIsEmpty(G);
+ *
+ * Descripcion: Verifica si un Grafo tiene vertices o no.
+ */
+int graphisEmpty(Graph *G);
+
+/*
+ * Funcion: graphGetLink
+ * --------------------------
+ * Modo de uso:
+ * GVertex *source, *destination;
+ * GEdge *arco;
+ * arco = graphGetLink(source, destination);
+ *
+ * Descripcion: Verifica que dos Vertices sean adyacentes.
+ *			Si lo son retorna el arco que los une, caso
+ *			contrario retorna NULL
+ */
+GEdge *graphGetLink(GVertex *vsource, GVertex *vdestination);
+
+/*
+ * Funcion: GRAPH_gEdgeCmpxDestinationEdge_CmpXVertex
+ * --------------------------
+ * Modo de uso:
+ * GVertex *V;
+ * GEdge *ar;
+ * int resp;
+ * resp = gEdgeCmpxDestination(ar, V);
+ *
+ * Descripcion: Verifica si el vertice destino del 
+ *			arco ar es igual al vertice V. Si son
+ *			iguales retorna 0, en caso contrario 1.
+ */
+int gEdgeCmpxDestination(GEdge *e, GVertex *vdestination);
+
+/*
+ * Funcion: graphCountVertices
+ * --------------------------
+ * Modo de uso:
+ * Graph *G;
+ * int resp;
+ * resp = graphCountVertices(G);
+ *
+ * Descripcion: Retorna el numero de vertices que
+ *			forman parte del grafo G
+ */
+int graphCountVertices(Graph *G);
+
+/*
+ * Funcion: graphCountEdges
+ * --------------------------
+ * Modo de uso:
+ * Graph *G;
+ * int resp;
+ * resp = graphCountEdges(G);
+ * Descripcion: Retorna el numero total de arcos
+ *			que	forman parte del grafo G
+ */
+int graphCountEdges(Graph *G);
+
+
+/*
+ * Funcion: gVertexCompare
+ * --------------------------
+ * Modo de uso:
+ * GVertex *V1, *V2;
+ * int resp;
+ * resp = gVertexCompare(V1,V2);
+ *
+ * Descripcion: Verifica si V1 y V2 referencian al
+ *			mismo vertice. Si lo hacen retorna 0,
+ *			caso contrario retorna 1.
+ */
+int gVertexCompare(GVertex *v, GVertex *ov);
+
+/*
+ * Funcion: graphSearchVertex
+ * --------------------------
+ * Modo de uso:
+ * GVertex *v;
+ * Generic cont;
+ * Graph *G;
+ * v = graphSearchVertex(G,cont,Funcion_Comparacion);
+ *
+ * Descripcion: Busca en el grafo G un vertice cuyo
+ *			contenido sea igual (segun la Funcion_Comparacion)
+ *			al contenido pasado como argumento. Retorna la
+ *			referencia al vertice si este existe, y si no
+ *			retorna NULL
+ */
+GVertex *graphSearchVertex(Graph *G, Generic cont, cmpfn fn);
+
+/*
+ * Funcion: graphInit
+ * --------------------------
+ * Modo de uso:
+ * Graph *G;
+ * graphInit(G);
+ *
+ * Descripcion: Marca todos los vertices de un grafo
+ *			como no visitados.
+ */
+void graphInit(Graph *G);
+
+void graphPrint(Graph *G, printfn prVertex, printfn prEdge);
+
+/** @} */
+#ifdef	__cplusplus
+extern "C" {
+#endif
+
+
+
+
+#ifdef	__cplusplus
+}
+#endif
+#endif

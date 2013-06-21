@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 29
+/svn/tdastruct/!svn/ver/4/src
+END
+nodelist.c
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/tdastruct/!svn/ver/4/src/nodelist.c
+END
+graph.c
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/tdastruct/!svn/ver/7/src/graph.c
+END
+quebrado.c
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/tdastruct/!svn/ver/4/src/quebrado.c
+END
+queue.c
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/tdastruct/!svn/ver/4/src/queue.c
+END
+stack.c
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/tdastruct/!svn/ver/4/src/stack.c
+END
+list.c
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/tdastruct/!svn/ver/7/src/list.c
+END
+generic.c
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/tdastruct/!svn/ver/4/src/generic.c
+END
