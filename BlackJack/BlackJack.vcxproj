@@ -60,6 +60,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="carta.c" />
+    <ClCompile Include="jackblack.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="carta.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
