@@ -29,5 +29,8 @@
     <ClCompile Include="avion.c">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="vuelo.c">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

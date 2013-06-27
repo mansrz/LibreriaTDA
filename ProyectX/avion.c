@@ -9,6 +9,8 @@ Avion* AvionNew(int modelo)
 {	
 	Avion *avion;
 	AvionSetModelo(avion,modelo);
+	AvionSetAsientos(avion);
+
 
 	return avion;
 }
@@ -32,4 +34,11 @@ void AvionSetModelo(Avion *avion,int modelo){
 
 	}
 }
-void AvionSet
+void AvionSetAsientos(Avion *avion){
+	int i;
+	Pasajero pasaj_null=NULL;
+	avion->asientos=listNew();
+	for(i=0;i<avion->capacidad;i++){
+		listAddNode(avion->asientos,pasaj_null);
+	}
+}
